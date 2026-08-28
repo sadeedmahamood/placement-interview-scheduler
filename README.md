@@ -446,21 +446,6 @@ Sensitive information such as database passwords, API keys, and secret keys shou
 
 ---
 
-## 🚧 Future Improvements
-
-Some possible improvements for future versions:
-
-* Authentication and role-based access control
-* Advanced filtering and search
-* Drag-and-drop schedule management
-* More advanced conflict-resolution strategies
-* Improved automated test coverage
-* Deployment with hosted PostgreSQL
-* CI/CD integration
-* Notifications for unresolved scheduling conflicts
-
----
-
 ## 👨‍💻 Author
 
 **Sadeed Mahamood**

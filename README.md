@@ -1,51 +1,152 @@
 # Placement Interview Scheduler
 
-A full-stack web application for managing and scheduling placement interviews for students, companies, interview panels, and rooms.
+> A full-stack placement interview scheduling system for coordinating students, companies, interview panels, rooms, and interview time slots.
 
-The system provides a coordinator dashboard where interview assignments can be viewed and managed while considering scheduling constraints such as panel availability, room availability, company requirements, and interview conflicts.
+The application provides a coordinator dashboard for viewing interview assignments, monitoring scheduled and unscheduled interviews, and handling scheduling constraints such as panel availability, room availability, and interview conflicts.
 
-## Features
+---
 
-- View the current interview schedule from a coordinator dashboard
-- Display scheduled and unscheduled interviews
-- Manage students, companies, panels, rooms, and interview assignments
-- Handle interview scheduling constraints
-- Track panel availability
-- Track room allocation
-- Identify scheduling conflicts
-- Automatically generate placement scheduling data
-- Replan interview assignments when scheduling conflicts occur
-- REST API powered backend
-- React-based frontend dashboard
+## 🚀 What This Project Does
 
-## Tech Stack
+Placement interview scheduling involves coordinating multiple resources at the same time.
 
-### Backend
+This project provides a centralized system to manage:
 
-- Python
-- Django
-- Django REST Framework
-- PostgreSQL
-- Django ORM
+| Resource | Purpose |
+|----------|---------|
+| Students | Students participating in placement interviews |
+| Companies | Companies conducting interviews |
+| Panels | Interviewers/panels assigned to interviews |
+| Rooms | Physical rooms used for interviews |
+| Interviews | Individual interview assignments |
+| Applications | Student-company application information |
+| Shortlists | Students shortlisted by companies |
 
-### Frontend
+The system keeps track of these relationships and helps maintain a valid interview schedule.
 
-- React
-- Vite
-- JavaScript
-- CSS
+---
 
-### Development Tools
+## ✨ Key Features
 
-- Git
-- GitHub
-- VS Code
+### Coordinator Dashboard
 
-## Project Structure
+- View the current interview schedule
+- See scheduled and unscheduled interviews
+- View student, company, panel, room, and timing information
+- Monitor the overall interview schedule from one place
 
+### Scheduling
+
+- Assign interviews to available time slots
+- Consider panel availability
+- Consider room availability
+- Detect scheduling conflicts
+- Maintain interview start and end times
+- Track scheduled and unscheduled assignments
+
+### Replanning
+
+The project includes a dedicated replanning service for handling scheduling conflicts.
+
+backend/scheduler/services/replanner.py
+
+The replanning logic can reorganize interview assignments when the existing schedule cannot accommodate all interviews.
+
+Data Management
+Student management
+Company management
+Panel management
+Room management
+Interview assignments
+Shortlists
+Applications
+Backend
+REST API
+Django ORM
+PostgreSQL database
+Database migrations
+Management command for generating scheduling data
+Frontend
+React dashboard
+Vite development environment
+Responsive scheduling interface
+API-driven data display
+📸 Application Preview
+Coordinator Dashboard
+
+The main dashboard provides an overview of the current interview schedule and allows the coordinator to monitor scheduled and unscheduled assignments.
+
+Add your dashboard screenshot here
+
+docs/screenshots/dashboard.png
+Interview Schedule
+
+The schedule displays interview assignments along with information such as student, company, day, start time, end time, panel, room, and scheduling status.
+
+Add your schedule screenshot here
+
+docs/screenshots/schedule.png
+🧠 Scheduling Logic
+
+The core purpose of the application is to produce a usable interview schedule while respecting available resources.
+
+The scheduler works with:
+
+Student
+   ↓
+Application / Shortlist
+   ↓
+Interview Assignment
+   ↓
+Time Slot
+   ├── Panel
+   └── Room
+
+An interview can only be considered successfully scheduled when the required scheduling constraints can be satisfied.
+
+Constraints considered
+Panel availability
+Room availability
+Existing interview assignments
+Interview timing
+Resource conflicts
+
+If an interview cannot be accommodated, the system keeps it as an unscheduled assignment instead of treating the schedule as successfully completed.
+
+This makes unresolved scheduling conflicts visible to the coordinator.
+
+🔄 Replanning
+
+The project separates the replanning logic from the API layer.
+
+backend/
+└── scheduler/
+    └── services/
+        └── replanner.py
+
+The replanning service is responsible for dealing with situations where the current allocation needs to be reconsidered.
+
+This separation makes the scheduling logic easier to maintain independently from:
+
+Database models
+API endpoints
+Frontend components
+🛠️ Technology Stack
+Layer	Technology
+Frontend	React
+Build Tool	Vite
+Language	JavaScript
+Styling	CSS
+Backend	Python / Django
+API	Django REST Framework
+ORM	Django ORM
+Database	PostgreSQL
+Version Control	Git / GitHub
+📂 Project Structure
 Placement-Scheduler/
 │
 ├── backend/
+│   │
 │   ├── config/
 │   │   ├── settings.py
 │   │   ├── urls.py
@@ -54,11 +155,14 @@ Placement-Scheduler/
 │   │
 │   ├── scheduler/
 │   │   ├── migrations/
+│   │   │
 │   │   ├── management/
 │   │   │   └── commands/
 │   │   │       └── generate_data.py
+│   │   │
 │   │   ├── services/
 │   │   │   └── replanner.py
+│   │   │
 │   │   ├── models.py
 │   │   ├── serializers.py
 │   │   ├── views.py
@@ -69,6 +173,7 @@ Placement-Scheduler/
 │   └── manage.py
 │
 ├── frontend/
+│   │
 │   ├── public/
 │   ├── src/
 │   │   ├── assets/
@@ -76,124 +181,109 @@ Placement-Scheduler/
 │   │   ├── App.css
 │   │   ├── index.css
 │   │   └── main.jsx
+│   │
 │   ├── package.json
 │   ├── package-lock.json
 │   └── vite.config.js
 │
 ├── .gitignore
 └── README.md
-System Architecture
+⚙️ Local Setup
+Prerequisites
 
-Scheduling Approach
+Make sure you have the following installed:
 
-The scheduler works with the different entities involved in placement interviews:
-
-Students
-Companies
-Interview panels
-Rooms
-Interview assignments
-
-The scheduling process considers resource availability and existing interview assignments.
-
-When conflicts occur, the replanning service can be used to reorganize interview assignments while respecting the available scheduling resources.
-
-The backend contains the scheduling/replanning logic separately under:
-
-backend/scheduler/services/replanner.py
-
-This keeps the scheduling logic separate from the API and database layers.
-
-Backend Setup
-1. Clone the repository
+Python 3
+PostgreSQL
+Node.js
+npm
+Git
+1. Clone the Repository
 git clone https://github.com/sadeedmahamood/placement-interview-scheduler.git
 cd placement-interview-scheduler
-2. Create a Python virtual environment
-
-From the project root:
-
+🐍 Backend Setup
+2. Create a Virtual Environment
 cd backend
 python -m venv env
-
-Activate it on Windows:
-
+Windows PowerShell
 .\env\Scripts\Activate.ps1
 
-If PowerShell execution policy prevents activation, the environment can also be activated using:
+If PowerShell blocks script execution, activate the environment using:
 
 .\env\Scripts\activate
-3. Install Python dependencies
+3. Install Backend Dependencies
 pip install -r requirements.txt
-4. Configure the database
+4. Configure PostgreSQL
 
-The project uses PostgreSQL.
+The backend uses PostgreSQL as its database.
 
-Make sure PostgreSQL is installed and running, then configure the database connection in the Django settings/environment according to your local setup.
+Make sure PostgreSQL is installed and running, then configure the database connection according to your local environment.
 
-Do not commit database passwords, API keys, or other secrets to GitHub.
+Keep database credentials and other secrets outside the public repository.
 
-5. Run migrations
+5. Run Database Migrations
 python manage.py migrate
-6. Generate project data
+6. Generate Scheduling Data
 
-The project includes a management command for generating scheduling data:
+The project includes a Django management command for generating project data.
 
 python manage.py generate_data
-7. Start the Django server
+7. Start the Backend
 python manage.py runserver
 
-The backend will normally be available at:
+Backend:
 
 http://127.0.0.1:8000/
-Frontend Setup
+⚛️ Frontend Setup
 
-Open a second terminal and navigate to the frontend:
+Open a second terminal from the project root.
 
 cd frontend
-1. Install dependencies
+8. Install Dependencies
 npm install
-2. Start the development server
+9. Start the Frontend
 npm run dev
 
-Vite will provide the local development URL in the terminal.
+Vite will display the local frontend URL in the terminal.
 
-Running the Full Application
+Open that URL in your browser.
 
-Start the backend:
+▶️ Running the Complete Application
 
+You need two terminals.
+
+Terminal 1 — Django Backend
 cd backend
 .\env\Scripts\Activate.ps1
 python manage.py runserver
-
-Then start the frontend in a separate terminal:
-
+Terminal 2 — React Frontend
 cd frontend
 npm run dev
 
-Open the frontend URL provided by Vite in your browser.
+Then open the frontend URL provided by Vite.
 
-API
+🔌 API
 
-The Django backend exposes REST API endpoints used by the React frontend.
+The React frontend communicates with the Django backend through REST API endpoints.
 
-The API is responsible for providing and managing scheduling-related information such as:
+The API handles scheduling-related data including:
 
-Interview assignments
 Students
 Companies
 Panels
 Rooms
+Interviews
 Scheduling status
 
-The API routes are defined in:
+API routing is defined in:
 
 backend/config/urls.py
 backend/scheduler/urls.py
-Data Model
+🗄️ Database & Models
 
-The backend contains models representing the main entities involved in the scheduling system.
+The backend uses Django models and PostgreSQL to persist scheduling data.
 
-These include:
+The main entities include:
 
 Student
 Company
@@ -203,69 +293,43 @@ Interview
 Shortlist
 Application
 
-Database migrations are maintained under:
+Database schema changes are maintained through Django migrations:
 
 backend/scheduler/migrations/
-Validation and Conflict Handling
-
-The scheduler is designed to identify situations where interview assignments cannot be scheduled because of resource or scheduling constraints.
-
-Examples include:
-
-Panel availability conflicts
-Room availability conflicts
-Conflicting interview assignments
-Scheduling assignments that cannot be accommodated
-
-The system distinguishes between scheduled and unscheduled interview assignments so that coordinators can identify assignments that require attention.
-
-Testing
-
-Django's test framework is available through:
-
+🧪 Validation & Testing
+Django System Check
+python manage.py check
+Run Tests
 python manage.py test
 
-Django system checks can also be run using:
+The Django system check is used to verify that the project configuration does not contain system-level errors.
 
-python manage.py check
-Environment and Security
+🔐 Security & Git
 
-Sensitive configuration should be stored in environment variables or local configuration files rather than committed to Git.
-
-The repository's .gitignore excludes:
+The repository excludes files that should not be committed, including:
 
 Python virtual environments
-Node.js node_modules
+node_modules
 Environment files
-Django database files
+Local database files
 Build/cache files
 IDE-specific files
-Future Improvements
 
-Possible future improvements include:
+Sensitive information such as database passwords, API keys, and secret keys should never be committed to the public repository.
+
+🚧 Future Improvements
+
+Some possible improvements for future versions:
 
 Authentication and role-based access control
-Drag-and-drop schedule management
 Advanced filtering and search
-Improved conflict-resolution strategies
-Deployment with a hosted PostgreSQL database
-Automated CI/CD
-More comprehensive automated tests
-Coordinator notifications for unresolved scheduling conflicts
-Author
-
+Drag-and-drop schedule management
+More advanced conflict-resolution strategies
+Improved automated test coverage
+Deployment with hosted PostgreSQL
+CI/CD integration
+Notifications for unresolved scheduling conflicts
+👨‍💻 Author
 Sadeed Mahamood
 
 Full Stack Developer
-
-GitHub:
-https://github.com/sadeedmahamood
-
-
-### One important correction before you paste it
-
-Because this is going to be a **public repository**, I don't want us blindly assuming the exact PostgreSQL/environment configuration in your `settings.py`.
-
-Your code is already pushed safely. **Next, I recommend we inspect `backend/config/settings.py` and `requirements.txt` once**, make sure the README's setup instructions exactly match your project, and then I'll give you the final README to commit.
-
-That avoids a reviewer cloning the repository and hitting a setup error because the README says something slightly different from your actual configuration.

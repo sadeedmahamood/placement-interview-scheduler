@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://placement-interview-scheduler-api.onrender.com/api/:path*"
+    }
+  ]
+}
